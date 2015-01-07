@@ -537,4 +537,15 @@ You may want to quit and fix this.
         if not ask(q, default=False):
             return False
         print q
+    if vcs.history_file() is None:
+        q = "No history file detected, should be in docs/HISTORY or package/name/HISTORY. Create one and quit?"
+        if ask(q, default=False):
+            history_file_path = os.path.join(data['workingdir'],'docs','HISTORY.txt')
+            if 'docs' not in main_files:
+                os.mkdir('docs')
+            with open(history_file_path, 'w') as f:
+                f.write('0.0 (unreleased)\n')
+                f.write('================\n')
+            print 'Now add the history file ({0}) to your VCS'.format(history_file_path)
+            return False
     return True
